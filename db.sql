@@ -9,28 +9,17 @@ CREATE TABLE posts (
   publish_at INTEGER
 );
 
-CREATE TABLE videos (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  owner_id INTEGER,
-  video_id INTEGER
-);
-
-CREATE TABLE documents (
+CREATE TABLE attachments (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   src_owner_id INTEGER,
   src_document_id INTEGER,
+  type TEXT,
   owner_id INTEGER,
   document_id INTEGER
 );
 
-CREATE TABLE post_documents (
+CREATE TABLE post_attachments (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   post_id INTEGER,
-  document_id INTEGER
-);
-
-CREATE TABLE post_videos (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  post_id INTEGER,
-  video_id INTEGER
+  attachment_id INTEGER
 );

@@ -2,3 +2,5 @@ venv/
 vk_api.dat
 .idea/
 data/
+*.pyc
+.idea/

@@ -6,12 +6,14 @@ import os
 # Using Windows VK client APP_ID/TOKEN
 APP_ID = "3697615"
 APP_TOKEN = "AlVXZFMUqyrnABp8ncuU"
-APP_SCOPE = "friends,groups,messages,video,wall,offline"
+APP_SCOPE = "friends,groups,messages,video,wall,offline,docs"
 
 
 class VKApi:
 
-    def __init__(self, username, password):
+    def __init__(self, username, password, version=None):
+        self.version = version
+
         if os.path.exists('vk_api.dat'):
             data = pickle.load(open('vk_api.dat'))
             self.access_token = data['ACCESS_TOKEN']
@@ -46,10 +48,9 @@ class VKApi:
         return None
 
     def call(self, method, **call_params):
-        params = {
-            'access_token': self.access_token,
-        }
+        params = {'access_token': self.access_token}
         params.update(call_params)
+        params.update({'v': self.version} if self.version else {})
 
         request_params = "&".join(["%s=%s" % (str(key), urllib.quote(str(params[key]))) for key in params.keys()])
         request_url = "https://api.vk.com/method/" + method + "?" + request_params
@@ -59,6 +60,6 @@ class VKApi:
         }).json()
 
         if "error" in resp:
-            raise Exception("ERROR: " + str(resp))
+            raise Exception("[ERROR] " + str(resp))
         else:
             return resp["response"]
